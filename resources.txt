@@ -1,0 +1,13 @@
+res/fonts/invaders.font
+res/sounds/0.wav
+res/sounds/1.wav
+res/sounds/2.wav
+res/sounds/3.wav
+res/sounds/4.wav
+res/sounds/5.wav
+res/sounds/6.wav
+res/sounds/7.wav
+res/sounds/8.wav
+res/sounds/9.wav
+res/sprites/sprites.spr
+res/sprites/sprites.png

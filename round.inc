@@ -18,7 +18,7 @@ type _alienShotInfo
 end
 
 /* ********************************************* */
- 
+
 /* ********************************************* */
 /* Global Vars                                   */
 /* ********************************************* */
@@ -288,7 +288,7 @@ begin
     playerPtr.aliensX = 40;
     playerPtr.aliensY = playerPtr.fleetTopBase;
     playerPtr.aliensDeltaX = 2;
-    
+
     playerPtr.alienIdx = 0;
 
     /* Saucer */
@@ -444,7 +444,7 @@ begin
                             map_get_pixel( 0, main_game_layer, asi.x + 1, asi.y + 6 ) |
                             map_get_pixel( 0, main_game_layer, asi.x + 2, asi.y + 6 );
                 rgba_get(color, &r, &g, &b, &a);
-                if ( a )
+                if ( a == 255 )
                     asi.y += 2;
 
                     PutSpriteMerge( asi.x - 2, asi.y, spr_alien_shot_explosion );
@@ -566,10 +566,10 @@ begin
             if ( !playerPtr.numAliens )
                 resetPlayer( currPlayer, 0 );
                 return 3; // Next round
-            end                
+            end
             handleSauScore();
         else
-            anybodyExploding = 1;            
+            anybodyExploding = 1;
         end
     end
 
@@ -627,7 +627,7 @@ begin
                     end
                 end
 
-                alienAnimationStatus ^= 1;            
+                alienAnimationStatus ^= 1;
 
                 // Right to Left allways -2
                 tDeltaX = playerPtr.aliensDeltaX < 0 ? -2 : playerPtr.numAliens > 1 ? 2 : 3;
@@ -661,7 +661,7 @@ begin
                 end
 
                 // Aliens reached the Player
-                if ( posY >= PLAYERY ) 
+                if ( posY >= PLAYERY )
                     playerExplodingCnt = 60; //0x100;
                     state1.waitForEventsComplete = 1;
                     state1.playerIsAlive = 0;
@@ -724,7 +724,7 @@ begin
          !anybodyExploding                                                   &&
          !( asRol.explodingCnt | asPlu.explodingCnt | asSqu.explodingCnt )   &&
          !( asRol.active | asPlu.active | asSqu.active | saucerActive )      &&
-         shotY == -1 
+         shotY == -1
     )
         if ( !demo_mode ) SoundStop( -1 ); end
 
@@ -782,7 +782,7 @@ begin
             if ( asSqu.active ) handleAShotCollision( AS_SQU, 7 ); end
 
             // Shot collision with saucer
-            if ( !state1.killed && saucerActive > 0 && 
+            if ( !state1.killed && saucerActive > 0 &&
                   shotY + 4 > SAUCERROW && shotY < SAUCERROW + 8 &&
                   shotX >= saucerX + 4 && shotX < saucerX + 20
                )
@@ -803,12 +803,12 @@ begin
             // Shot collision with shield
             if ( !state1.killed && shotY + 4 >= playerPtr.currentShieldTopY && shotY < SHIELDTOPY + 16 )
                 byte r,g,b,a;
-                int color = map_get_pixel( 0, main_game_layer, shotX, shotY     ) | 
-                            map_get_pixel( 0, main_game_layer, shotX, shotY + 1 ) | 
-                            map_get_pixel( 0, main_game_layer, shotX, shotY + 2 ) | 
+                int color = map_get_pixel( 0, main_game_layer, shotX, shotY     ) |
+                            map_get_pixel( 0, main_game_layer, shotX, shotY + 1 ) |
+                            map_get_pixel( 0, main_game_layer, shotX, shotY + 2 ) |
                             map_get_pixel( 0, main_game_layer, shotX, shotY + 3 );
                 rgba_get(color, &r, &g, &b, &a);
-                if ( a )
+                if ( a == 255 )
                     deleteOldPlayerShot();
 
                     shotY = -( shotY - 2 );
@@ -946,7 +946,7 @@ begin
             end
         end
     end
-    
+
     if ( alienShotFrameCnt & playerPtr.alienShotMask )
         if ( asRol.active ) handleAlienShot( AS_ROL ); end
         if ( asPlu.active ) handleAlienShot( AS_PLU ); end
@@ -984,7 +984,7 @@ start_round:
     ClearGameArea();
 
     DrawShips();
-    
+
     if ( !demo_mode )
         DrawScoreHeaderAndCredits();
         PrintAt(   7,  14, "PLAY PLAYER<" + ( !currPlayer ? "1" : "2" ) + ">" );
@@ -998,7 +998,7 @@ start_round:
         end
         ClearGameArea();
     end
-    
+
     DrawShields();
 
     DrawFloor();
